@@ -1,0 +1,6 @@
+node_modules
+.git
+package-lock.json
+package.json
+webpack.config.js
+bundle.js.map
