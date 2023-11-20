@@ -50,6 +50,26 @@ function changeBackground(condition) {
 
 /***/ }),
 
+/***/ "./js/modules/checkInput.js":
+/*!**********************************!*\
+  !*** ./js/modules/checkInput.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const checkInput = selector => {
+  const input = document.querySelector(selector);
+  input.addEventListener('input', () => {
+    input.value = input.value.replace(/\d/, '');
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (checkInput);
+
+/***/ }),
+
 /***/ "./js/modules/getHighlights.js":
 /*!*************************************!*\
   !*** ./js/modules/getHighlights.js ***!
@@ -88,58 +108,58 @@ const getHighlights = todayData => {
   sunSet.innerText = (0,_time__WEBPACK_IMPORTED_MODULE_0__.getHour)(currentDay.sunset);
   function getUvStatus(uvIndex) {
     if (uvIndex <= 2) {
-      uvText.innerText = "Низкий";
+      uvText.innerText = "Low";
     } else if (uvIndex <= 5) {
-      uvText.innerText = "Умеренный";
+      uvText.innerText = "Moderate";
     } else if (uvIndex <= 7) {
-      uvText.innerText = "Высокий";
+      uvText.innerText = "High";
     } else if (uvIndex <= 10) {
-      uvText.innerText = "Очень Высокий";
+      uvText.innerText = "Very High";
     } else {
-      uvText.innerText = "Экстремальный";
+      uvText.innerText = "Extreme";
     }
   }
   function getHumidityStatus(humidity) {
     if (humidity <= 30) {
-      humidityStatus.innerText = "Низкая";
+      humidityStatus.innerText = "Low";
     } else if (humidity <= 60) {
-      humidityStatus.innerText = "Умеренная";
+      humidityStatus.innerText = "Moderate";
     } else {
-      humidityStatus.innerText = "Высокая";
+      humidityStatus.innerText = "High";
     }
   }
   function getVisivilityStatus(visibility) {
     if (visibility <= 0.03) {
-      visibilityStatus.innerText = "Густой туман";
+      visibilityStatus.innerText = "Dense fog";
     } else if (visibility <= 0.16) {
-      visibilityStatus.innerText = "Умеренный туман";
+      visibilityStatus.innerText = "Moderate fog";
     } else if (visibility <= 0.35) {
-      visibilityStatus.innerText = "Легкий туман";
+      visibilityStatus.innerText = "Light fog";
     } else if (visibility <= 1.13) {
-      visibilityStatus.innerText = "Очень слабый туман";
+      visibilityStatus.innerText = "Very light fog";
     } else if (visibility <= 2.16) {
-      visibilityStatus.innerText = "Легкая дымка";
+      visibilityStatus.innerText = "Light haze";
     } else if (visibility <= 5.4) {
-      visibilityStatus.innerText = "Слабая дымка";
+      visibilityStatus.innerText = "A faint haze";
     } else if (visibility <= 10.8) {
-      visibilityStatus.innerText = "Чистое небо";
+      visibilityStatus.innerText = "Clear sky";
     } else {
-      visibilityStatus.innerText = "Чистейшее небо";
+      visibilityStatus.innerText = "The purest sky";
     }
   }
   function getAirQualityStatus(airQuality) {
     if (airQuality <= 50) {
-      airQualityStatus.innerText = "Хорошее👌";
+      airQualityStatus.innerText = "Good👌";
     } else if (airQuality <= 100) {
-      airQualityStatus.innerText = "Умеренное😐";
+      airQualityStatus.innerText = "Moderate😐";
     } else if (airQuality <= 150) {
-      airQualityStatus.innerText = "Вредное для чувствительных групп😷";
+      airQualityStatus.innerText = "Harmful to sensitive groups😷";
     } else if (airQuality <= 200) {
-      airQualityStatus.innerText = "Нездоровое😷";
+      airQualityStatus.innerText = "Unhealthy😷";
     } else if (airQuality <= 250) {
-      airQualityStatus.innerText = "Очень вредное для здоровья😨";
+      airQualityStatus.innerText = "Very harmful to health😨";
     } else {
-      airQualityStatus.innerText = "Опасное😱";
+      airQualityStatus.innerText = "Harmful😱";
     }
   }
 };
@@ -161,6 +181,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _getHighlights__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getHighlights */ "./js/modules/getHighlights.js");
 /* harmony import */ var _changeImages__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./changeImages */ "./js/modules/changeImages.js");
 /* harmony import */ var _time__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./time */ "./js/modules/time.js");
+/* harmony import */ var _checkInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./checkInput */ "./js/modules/checkInput.js");
+
 
 
 
@@ -178,6 +200,7 @@ const main = () => {
     tempUnit = document.querySelectorAll("#temp-unit"),
     hourlyBtn = document.querySelector(".hourly"),
     weekBtn = document.querySelector(".week"),
+    card2 = document.querySelectorAll('.card2'),
     weatherCards = document.querySelector("#weather-cards");
   let currentCity = "";
   let currentUnit = "c";
@@ -191,6 +214,7 @@ const main = () => {
   (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getPublicIp)();
   function getWeather(city, unit, hourlyorWeek) {
     (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getWeatherData)(city).then(data => {
+      animateCards();
       let today = data.currentConditions;
       if (unit === 'c') {
         temp.innerText = today.temp;
@@ -227,6 +251,7 @@ const main = () => {
     for (let i = 0; i < numCards; i++) {
       let card = document.createElement("div");
       card.classList.add("card");
+      card.classList.add('animated', 'zoomIn');
       let dayName = (0,_time__WEBPACK_IMPORTED_MODULE_3__.getHour)(data[day].datetime);
       if (type === "week") {
         dayName = (0,_time__WEBPACK_IMPORTED_MODULE_3__.getDayName)(data[day].datetime);
@@ -255,9 +280,20 @@ const main = () => {
       day++;
     }
   }
+  function animateCards() {
+    card2.forEach(elem => {
+      if (!elem.classList.contains('animated') || !elem.classList.contains('zoomIn')) {
+        elem.classList.add('animated', 'zoomIn');
+        setTimeout(() => {
+          elem.classList.remove('animated', 'zoomIn');
+        }, 750);
+      }
+    });
+  }
+  (0,_checkInput__WEBPACK_IMPORTED_MODULE_4__["default"])('#query');
   searchForm.addEventListener("submit", e => {
     e.preventDefault();
-    let location = search.value;
+    let location = search.value.trim();
     if (location) {
       currentCity = location;
       getWeather(location, currentUnit, hourlyorWeek);
@@ -298,13 +334,12 @@ const main = () => {
       if (unit === "hourly") {
         hourlyBtn.classList.add("active");
         weekBtn.classList.remove("active");
-        document.body.style.backgroundSize = '100% 200%';
       } else {
         hourlyBtn.classList.remove("active");
         weekBtn.classList.add("active");
-        document.body.style.backgroundSize = '100% 100%';
       }
       getWeather(currentCity, currentUnit, hourlyorWeek);
+      animateCards();
     }
   }
 };
@@ -381,8 +416,13 @@ async function getPublicIp() {
   }
   return res.json();
 }
+
+/* 3WLF3FWUMFLQS3L2NMSUENS86 */
+
+/* EJ6UBL2JEQGYB3AA4ENASN62J */
+
 async function getWeatherData(city) {
-  const res = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=EJ6UBL2JEQGYB3AA4ENASN62J&contentType=json`, {
+  const res = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=metric&key=3WLF3FWUMFLQS3L2NMSUENS86&contentType=json`, {
     method: "GET",
     headers: {}
   });

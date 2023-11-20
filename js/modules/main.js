@@ -2,6 +2,7 @@ import { getPublicIp, getWeatherData } from "../services/services";
 import getHighlights from "./getHighlights";
 import { getIcon, changeBackground} from "./changeImages";
 import { getHour, getDayName} from "./time";
+import checkInput from "./checkInput";
 
 const main = () => {
   const temp = document.getElementById("temp"),
@@ -16,6 +17,7 @@ const main = () => {
         tempUnit = document.querySelectorAll("#temp-unit"),
         hourlyBtn = document.querySelector(".hourly"),
         weekBtn = document.querySelector(".week"),
+        card2 = document.querySelectorAll('.card2'),
         weatherCards = document.querySelector("#weather-cards");
       
   let currentCity = "";
@@ -37,6 +39,7 @@ const main = () => {
 function getWeather(city, unit, hourlyorWeek) {
   getWeatherData(city)
   .then((data) => {
+    animateCards();
     let today = data.currentConditions;
     if(unit === 'c') {
       temp.innerText = today.temp;
@@ -76,6 +79,7 @@ function updateForecast(data, unit, type) {
   for (let i = 0; i < numCards; i++) {
     let card = document.createElement("div");
     card.classList.add("card");
+    card.classList.add('animated', 'zoomIn');
     let dayName = getHour(data[day].datetime);
     if (type === "week") {
       dayName = getDayName(data[day].datetime);
@@ -105,10 +109,21 @@ function updateForecast(data, unit, type) {
   }
 }
 
+function animateCards() {
+  card2.forEach((elem) => {
+    if (!elem.classList.contains('animated') ||!elem.classList.contains('zoomIn')) {
+      elem.classList.add('animated', 'zoomIn');
+      setTimeout(() => {
+        elem.classList.remove('animated', 'zoomIn');
+      }, 750);
+    }
+  });
+}
+checkInput('#query');
 
 searchForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  let location = search.value;
+  let location = (search.value).trim();
   if (location) {
     currentCity = location;
     getWeather(location, currentUnit, hourlyorWeek);
@@ -148,22 +163,20 @@ weekBtn.addEventListener("click", () => {
 
 
 function changeTimeSpan(unit) {
-  if (hourlyorWeek !== unit) {
+  if (hourlyorWeek!== unit) {
     hourlyorWeek = unit;
     if (unit === "hourly") {
       hourlyBtn.classList.add("active");
       weekBtn.classList.remove("active");
-      document.body.style.backgroundSize = '100% 200%';
     } else {
       hourlyBtn.classList.remove("active");
       weekBtn.classList.add("active");
-      document.body.style.backgroundSize = '100% 100%';
     }
     getWeather(currentCity, currentUnit, hourlyorWeek);
+    animateCards();
   }
 }
 
-  
 };
 
 export default main;
