@@ -7,7 +7,7 @@ async function getPublicIp() {
     throw new Error('Oops! Your url is invalid :(');
   }
 
-  return res.json();
+  return await res.json();
 }
 
 /* 3WLF3FWUMFLQS3L2NMSUENS86 */
@@ -21,7 +21,7 @@ async function getWeatherData(city) {
     headers: {},
   })
 
-  return res.json();
+  return await res.json();
 }
 
 
