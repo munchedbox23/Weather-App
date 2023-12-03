@@ -291,3 +291,26 @@ img {
   left: 50%;
   transform: translateX(-50%);
 }
+
+/* BreakPoints */
+@media (max-width: 390px) {
+  .sidebar {
+    display: none;
+  }
+
+  body {
+    padding: 20px;
+    background-size: 100% 420%;
+  }
+
+  .container {
+    min-width: 350px;
+    border-radius: 0
+  }
+
+  .main {
+    min-width: 350px;
+    width: 350px;
+    padding: 20px 50px;
+  }
+}
