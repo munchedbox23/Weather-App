@@ -18,7 +18,7 @@ body {
   padding: 50px;
   background: var(--primary-color);
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("assets/images/cd.jpg");
-  background-size: 100% 200%;
+  background-size: 100% 360%;
   background-position: center;
   transition: all 0.3s ease;
 }
